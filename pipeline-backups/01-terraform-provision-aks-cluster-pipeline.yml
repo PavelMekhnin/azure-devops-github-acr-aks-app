@@ -77,6 +77,12 @@ stages:
               name: sshkey
               inputs:
                 secureFile: 'aks-terraform-devops-ssh-key-ububtu.pub'
+
+            - task: TerraformInstaller@1
+              displayName: Terraform Install
+              inputs:
+                terraformVersion: 'latest'
+
             - task: TerraformTask@5
               displayName: Terraform Init
               inputs:
@@ -88,6 +94,7 @@ stages:
                 backendAzureRmStorageAccountName: 'mekhninterraform'
                 backendAzureRmContainerName: 'tfstatefiles'
                 backendAzureRmKey: 'aks-$(DEV_ENVIRONMENT).tfstate'
+
             - task: TerraformTask@5
               displayName: Terraform Plan
               inputs:
@@ -96,6 +103,7 @@ stages:
                 workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                 environmentServiceArm: 'terraform-aks-azurerm-svc-con'
                 commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var environment=$(DEV_ENVIRONMENT) -out $(Pipeline.Workspace)/terraform-manifests-out/$(DEV_ENVIRONMENT)-$(Build.BuildId).out'
+            
             - task: TerraformTask@5
               displayName: Terraform Apply
               inputs:
