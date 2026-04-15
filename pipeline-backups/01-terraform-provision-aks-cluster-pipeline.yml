@@ -28,10 +28,12 @@ stages:
           targetPath: '$(System.DefaultWorkingDirectory)/terraform-manifests'
           artifact: 'terraform-manifests-out'
           publishLocation: 'pipeline'
+
       - task: TerraformInstaller@1
         displayName: Terraform Install
         inputs:
           terraformVersion: 'latest'
+
       - task: TerraformTask@5
         displayName: Terraform Init
         inputs:
@@ -43,6 +45,7 @@ stages:
           backendAzureRmStorageAccountName: 'mekhninterraform'
           backendAzureRmContainerName: 'tfstatefiles'
           backendAzureRmKey: 'aks-base.tfstate'
+
       - task: TerraformTask@5
         displayName: Terraform Validate
         inputs:
