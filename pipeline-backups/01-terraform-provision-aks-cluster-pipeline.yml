@@ -102,6 +102,7 @@ stages:
                 command: 'plan'
                 workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                 environmentServiceArm: 'terraform-aks-azurerm-svc-con'
+                environmentServiceNameAzureRM: 'terraform-aks-azurerm-svc-con'
                 commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var environment=$(DEV_ENVIRONMENT) -out $(Pipeline.Workspace)/terraform-manifests-out/$(DEV_ENVIRONMENT)-$(Build.BuildId).out'
             
             - task: TerraformTask@5
@@ -111,6 +112,7 @@ stages:
                 command: 'apply'
                 workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                 environmentServiceArm: 'terraform-aks-azurerm-svc-con'
+                environmentServiceNameAzureRM: 'terraform-aks-azurerm-svc-con'
                 commandOptions: '$(Pipeline.Workspace)/terraform-manifests-out/$(DEV_ENVIRONMENT)-$(Build.BuildId).out'
 
 # Stage-2: Deploy Stages for Dev & QA
